@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/teal_700"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editText_FullName_Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Full Name" />
+
+    <EditText
+        android:id="@+id/editText_PhoneNumber_Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number" />
+
+    <EditText
+        android:id="@+id/editText_License_Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="License Number" />
+
+    <EditText
+        android:id="@+id/editText_ClinicAddress_Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Clinic Address" />
+
+    <EditText
+        android:id="@+id/editText_Specialization_Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Specialization" />
+
+    <EditText
+        android:id="@+id/editText_Email_Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email" />
+
+    <Button
+        android:id="@+id/button_Update_Profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/updateButton"
+        android:textStyle="bold"
+        android:textColor="@color/teal_700"
+        android:backgroundTint="@color/white"
+        />
+</LinearLayout>
