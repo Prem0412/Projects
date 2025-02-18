@@ -8,8 +8,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.telemedicineapp.database.AppDatabase
 import com.example.telemedicineapp.database.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
 
@@ -38,26 +42,32 @@ class LoginActivity : AppCompatActivity() {
             val email = userEmail.text.toString().trim()
             val password = userPassword.text.toString().trim()
 
-            // Check if fields are empty
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            try {
-                // Fetch user from database
-                val user: User? = db.userDao().loginUser(email, password)
+            lifecycleScope.launch {
+                try {
+                    val user: User? = withContext(Dispatchers.IO) {
+                        db.userDao().loginUser(email, password)
+                    }
 
-                if (user != null) {
-                    Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@LoginActivity, OnboardDoctorActivity::class.java))
-                    finish() // Close login activity
-                } else {
-                    Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                    withContext(Dispatchers.Main) {
+                        if (user != null) {
+                            Toast.makeText(this@LoginActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@LoginActivity, OnboardDoctorActivity::class.java))
+                            finish() // Close login activity
+                        } else {
+                            Toast.makeText(this@LoginActivity, "Invalid Credentials", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                e.printStackTrace() // Debugging
             }
         }
 

@@ -11,16 +11,16 @@ import com.example.telemedicineapp.database.DoctorData
 interface DoctorDataDao {
 
     @Query( "SELECT * FROM doctor" )
-    fun getDoctorData(): List<DoctorData>
+  suspend fun getDoctorData(): List<DoctorData>
 
     @Insert
-    fun insertDoctor(doctorData: DoctorData)
+    suspend fun insertDoctor(doctorData: DoctorData)
 
     @Update
-    fun updateDoctor(doctor: DoctorData)
+    suspend fun updateDoctor(doctor: DoctorData)
 
     @Delete
-    fun deleteDoctor(doctorData: DoctorData)
+    suspend  fun deleteDoctor(doctorData: DoctorData)
 
 
 

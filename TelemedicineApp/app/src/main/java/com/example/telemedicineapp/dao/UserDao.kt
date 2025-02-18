@@ -8,11 +8,11 @@ import com.example.telemedicineapp.database.User
 @Dao
 interface UserDao {
     @Insert
-    fun insertUser(user: User)
+    suspend fun insertUser(user: User)
 
     @Query("SELECT * FROM users WHERE email = :email AND password = :password ")
-     fun loginUser(email: String, password: String): User?
+    suspend  fun loginUser(email: String, password: String): User?
 
     @Query("SELECT COUNT(*) FROM users")
-     fun isUserRegistered(): Boolean
+    suspend fun isUserRegistered(): Boolean
 }

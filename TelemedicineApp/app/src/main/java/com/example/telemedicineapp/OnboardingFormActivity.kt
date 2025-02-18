@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.telemedicineapp.dao.DoctorDataDao
+import androidx.lifecycle.lifecycleScope
 import com.example.telemedicineapp.database.DoctorData
 import com.example.telemedicineapp.database.DoctorDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class OnboardingFormActivity : AppCompatActivity() {
 
@@ -38,7 +38,6 @@ class OnboardingFormActivity : AppCompatActivity() {
         val doctorDB = DoctorDatabase.getDRDatabase(this)
 
         btnOnboard.setOnClickListener {
-
             val doctor = DoctorData(
                 phoneNumber = etPhoneNumberOfDoctor.text.toString(),
                 fullNameDR = etFullNameOfDoctor.text.toString(),
@@ -48,13 +47,27 @@ class OnboardingFormActivity : AppCompatActivity() {
                 clinicAddress = etClinicAddressOfDoctor.text.toString()
             )
 
-            doctorDB.doctorDataDao().insertDoctor(doctor)
-
-            Toast.makeText(this, "Doctor Registered!", Toast.LENGTH_SHORT).show()
-
-            // Redirect to ProfileActivity
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-            finish()  // Close th
+            // Insert doctor data asynchronously
+            insertDoctorData(doctor, doctorDB)
         }
-    }}
+    }
+
+    private fun insertDoctorData(doctor: DoctorData, doctorDB: DoctorDatabase) {
+        lifecycleScope.launch {
+            // Perform the insert operation in a background thread
+            withContext(Dispatchers.IO) {
+                doctorDB.doctorDataDao().insertDoctor(doctor)
+            }
+
+            // Show a Toast on the main thread after inserting data
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@OnboardingFormActivity, "Doctor Registered!", Toast.LENGTH_SHORT).show()
+
+                // Redirect to ProfileActivity
+                val intent = Intent(this@OnboardingFormActivity, ProfileActivity::class.java)
+                startActivity(intent)
+                finish()  // Close the current activity
+            }
+        }
+    }
+}

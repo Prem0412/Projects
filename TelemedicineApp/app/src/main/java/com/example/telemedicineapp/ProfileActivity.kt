@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.telemedicineapp.database.DoctorData
 import com.example.telemedicineapp.database.DoctorDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -38,21 +39,33 @@ class ProfileActivity : AppCompatActivity() {
 
         doctorDB = DoctorDatabase.getDRDatabase(this)
 
-        // Fetch the first doctor (assuming one doctor per app for simplicity)
-        val doctor = doctorDB.doctorDataDao().getDoctorData().firstOrNull()
-
-        if (doctor != null) {
-            doctorId = doctor.id  // Store the ID for updates
-            etFullName.setText(doctor.fullNameDR)
-            etPhoneNumber.setText(doctor.phoneNumber)
-            etLicense.setText(doctor.licenseNumber)
-            etClinicAddress.setText(doctor.clinicAddress)
-            etSpecialization.setText(doctor.specilization)
-            etEmail.setText(doctor.email)
-        }
+        // Fetch the first doctor asynchronously
+        loadDoctorData()
 
         btnUpdate.setOnClickListener {
             updateProfile()
+        }
+    }
+
+    private fun loadDoctorData() {
+        lifecycleScope.launch {
+            val doctor = getDoctorData()
+
+            if (doctor != null) {
+                doctorId = doctor.id  // Store the ID for updates
+                etFullName.setText(doctor.fullNameDR)
+                etPhoneNumber.setText(doctor.phoneNumber)
+                etLicense.setText(doctor.licenseNumber)
+                etClinicAddress.setText(doctor.clinicAddress)
+                etSpecialization.setText(doctor.specilization)
+                etEmail.setText(doctor.email)
+            }
+        }
+    }
+
+    private suspend fun getDoctorData(): DoctorData? {
+        return withContext(Dispatchers.IO) {
+            doctorDB.doctorDataDao().getDoctorData().firstOrNull()
         }
     }
 
@@ -72,7 +85,16 @@ class ProfileActivity : AppCompatActivity() {
             email = etEmail.text.toString()
         )
 
-        doctorDB.doctorDataDao().updateDoctor(updatedDoctor)
-        Toast.makeText(this, "Profile Updated Successfully!", Toast.LENGTH_SHORT).show()
+        // Update doctor data asynchronously
+        lifecycleScope.launch {
+            updateDoctorData(updatedDoctor)
+            Toast.makeText(this@ProfileActivity, "Profile Updated Successfully!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private suspend fun updateDoctorData(doctor: DoctorData) {
+        withContext(Dispatchers.IO) {
+            doctorDB.doctorDataDao().updateDoctor(doctor)
+        }
     }
 }

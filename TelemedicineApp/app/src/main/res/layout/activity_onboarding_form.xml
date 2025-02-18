@@ -48,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
+
                 android:text="@string/OnboardingForm"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -59,9 +60,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/hintMobileNumber"
-                android:textSize="20sp"
 
+                android:textSize="20sp"
+                android:hint="@string/hintMobileNumber"
 
                 />
 
@@ -72,8 +73,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/hintFullName"
+                android:hint="@string/hintFullName"
                 android:textSize="20sp"
+
                 />
 
 
@@ -82,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/hintEmail"
+            android:hint="@string/hintEmail"
             android:textSize="20sp"
             />
 
@@ -95,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/hintSpecialization"
+                android:hint="@string/hintSpecialization"
                 android:textSize="20sp"
 
 
@@ -106,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/hintLicenseNumber"
+                android:hint="@string/hintLicenseNumber"
                 android:textSize="20sp"
 
 
@@ -117,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/hintClinicAddress"
+                android:hint="@string/hintClinicAddress"
                 android:textSize="20sp"
 
 
