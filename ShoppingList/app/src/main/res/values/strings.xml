@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">ShoppingList</string>
+    <string name="prifileName">Profile Name</string>
+
+    // Navigation Text
+    <string name="home">Home</string>
+
+    // Display Text
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="forgotPassword">Forgot Password?</string>
+    <string name="warning_Register">Unable to login? Register</string>
+    <string name="createList">Create new list</string>
+
+
+    // Buttons
+    <string name="btnLogin">Login</string>
+    <string name="btnRegister">Register</string>
+    <string name="btnEdit">Edit</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnCreate">Create</string>
+    <string name="btnAddTOList">Add to list</string>
+    <string name="btnClearAll">Clear All</string>
+
+
+    //Hints
+    <string name="hintEmail">Email</string>
+    <string name="hintPassword">Password</string>
+    <string name="hintNumber">Number</string>
+    <string name="hintTitle">Title</string>
+    <string name="hintTask">Task</string>
+    <string name="hintName">Name</string>
+    // extra text
+    <string name="listName">List Name</string>
+
+</resources>
